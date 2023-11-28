@@ -33,7 +33,7 @@ INSTALLED_APPS = [
 
 PROJECT_APPS = ["apps.account","apps.commons","apps.core"]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = ['crispy_forms','crispy_bootstrap4']
 
 INSTALLED_APPS += PROJECT_APPS + THIRD_PARTY_APPS
 
@@ -117,3 +117,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "account.User"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
