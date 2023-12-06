@@ -24,3 +24,9 @@ class JobApplication(BaseModel):
         user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_applications")     
         interview_date = models.DateTimeField(null=True, blank=True)     
         status = models.CharField(choices=status_choices, max_length=20)
+
+class Contact(BaseModel):
+    name = models.CharField(max_length=20)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=14, null=True, blank=True)
+    message = models.TextField(max_length=1000)

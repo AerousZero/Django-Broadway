@@ -55,3 +55,10 @@ def send_account_activation_mail(request, user):
     from_email = "noreply@myproject.com"
     user.email_user(subject=subject, message=message, from_email=from_email)
     UserAccountActivationKey.objects.create(user=user, key=key)
+
+    def is_profile_complete(user):
+        try:
+            profile = user.userprofile
+        except:
+            return False
+        return all([user.is_active, user.account_activated, profile.resume, profile.phone_number, profile.address])

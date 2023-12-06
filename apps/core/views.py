@@ -1,8 +1,17 @@
 from django.shortcuts import render
-from django.views.generic import ListView
-from apps.core.models import Job, JobApplication, Category
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
+from django.shortcuts import redirect
+from django.utils.decorators import method_decorator
+
 from apps.commons.utils import get_base_url
 from .pagination import CustomPagination
+
+from apps.core.models import Job, JobApplication, Category
+from .forms import ContactForm
+
 # Create your views here.
 class HomeView(ListView):
     template_name = "core/home.html"
@@ -44,3 +53,23 @@ class HomeView(ListView):
         context['home_active'] = 'active'
         return context
 
+class ContactView(CreateView):
+    template_name = 'core/contact.html'
+    success_url = reverse_lazy('contact')
+    form_class = ContactForm
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.get_form()
+        if form.is_valid():
+            messages.success(request, "We Have Received Your Response")
+            return self.form_valid(form)
+        else:
+            messages.error(request, "Something Went Wrong")
+            return self.form_invalid(form)
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Contact Us"
+        context['contact_active'] = 'active'
+        return context
